@@ -3,27 +3,46 @@ html {
   background: #ccc;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: 14px;
+  color: rgb(37, 36, 36);
 }
 
 main {
-  min-height: calc(100vh - 60px);
-  max-width: 500px;
+  height: calc(100vh - 60px);
+  width: calc(100vw - 60px);
   margin: 30px;
   background: #fff;
-  border: 1px solid black;
-  box-shadow: -8px 8px 0 rgba(0, 0, 0, 0.2);
+  border: 3px double rgb(37, 36, 36);
+  /* box-shadow: -5px 5px 0 rgba(0, 0, 0, 0.2); */
+  /* box-shadow: 
+  -2px 2px 6px rgba(0, 0, 0, 0.1),
+    -5px 5px 20px rgba(0, 0, 0, 0.2); */
   position: relative;
 }
 
 h1 {
   text-transform: uppercase;
   letter-spacing: 0.5em;
-  text-align: center;
-  border-bottom: 1px dashed #000;
+  color: rgb(57, 177, 10);
+}
+
+#actions {
+  border-bottom: 1px solid rgb(37, 36, 36);
   height: 35px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  padding: 0 6px;
+}
+
+#actions button {
+  border: none;
+  background: linear-gradient(rgb(210, 241, 255), rgb(188, 229, 248));
+  border: 1px solid rgb(112, 174, 202);
+  background: none;
+  border: none;
+  padding: 6px 10px;
+  color: rgb(29, 50, 236);
+  cursor: pointer;
 }
 
 #interface {
@@ -32,35 +51,39 @@ h1 {
   left: 0;
   right: 0;
   bottom: 0;
-  overflow-y: scroll;
-  padding: 15px;
+  display: grid;
+  grid-template-columns: 40px auto 250px;
 }
 
 #canvas-wrap {
-  position: relative;
-  height: 0;
-  padding-bottom: 100%;
+  /* aspect-ratio: 1; */
+  background: #eee;
 }
 
 #canvas {
-  position: absolute;
+  display: none;
+  /* max-width: 100%; */
+  /* height: 100%; */
+  /* position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: #eee;
+  background: #eee; */
 }
 
 #tools {
-  margin: 15px 0;
   display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-right: 1px solid #ccc;
 }
 
 #tools button {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: 40px;
   display: block;
   border: 1px solid #ddd;
@@ -78,4 +101,9 @@ h1 {
 
 #tools button:hover {
   cursor: pointer;
+}
+
+#layers {
+  border-left: 1px solid #ccc;
+  padding: 10px;
 }
