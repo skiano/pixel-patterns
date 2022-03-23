@@ -12,17 +12,12 @@ main {
   margin: 30px;
   background: #fff;
   border: 3px double rgb(37, 36, 36);
-  /* box-shadow: -5px 5px 0 rgba(0, 0, 0, 0.2); */
-  /* box-shadow: 
-  -2px 2px 6px rgba(0, 0, 0, 0.1),
-    -5px 5px 20px rgba(0, 0, 0, 0.2); */
   position: relative;
 }
 
 h1 {
   text-transform: uppercase;
   letter-spacing: 0.5em;
-  color: rgb(57, 177, 10);
 }
 
 #actions {
@@ -82,12 +77,18 @@ h1 {
 }
 
 #tools button {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 40px;
   display: block;
   border: 1px solid #ddd;
   background: rgb(59, 178, 224);
+}
+
+#tools button:focus,
+#tools button.active {
+  outline: 2px solid rgb(46, 65, 238);
+  outline-offset: 2px;
 }
 
 #tools button:nth-child(2) { background: rgb(180, 224, 59); }
@@ -105,5 +106,85 @@ h1 {
 
 #layers {
   border-left: 1px solid #ccc;
+}
+
+.layer {
   padding: 10px;
+}
+
+.layer + .layer {
+  border-top: 1px solid #ccc;
+}
+
+.layer h4 {
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.button-set {
+  display: flex;
+  justify-content: stretch;
+  margin-top: 10px;
+}
+
+.button-set button {
+  border: none;
+  flex-grow: 1;
+  flex-basis: 0;
+  text-align: center;
+  padding: 8px 0;
+  color: rgb(29, 50, 236);
+  background: #eee;
+  cursor: pointer;
+}
+
+.button-set button:focus,
+.button-set button.active {
+  background: rgb(29, 50, 236);
+  color: #fff;
+}
+
+/*Chrome*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  input[type='range'] {
+    /* overflow: hidden; */
+    width: 100%;
+    margin: 16px 0 8px;
+    -webkit-appearance: none;
+    background-color: #eee;
+    border-radius: 10px;
+  }
+  
+  input[type='range']::-webkit-slider-runnable-track {
+    height: 8px;
+    -webkit-appearance: none;
+    color: #13bba4;
+    margin-top: -1px;
+  }
+  
+  input[type='range']::-webkit-slider-thumb {
+    width: 18px;
+    -webkit-appearance: none;
+    height: 18px;
+    cursor: ew-resize;
+    background: rgb(29, 50, 236);
+    transform: translate(0%, -4px);
+    border-radius: 20px;
+    /* box-shadow: -80px 0 0 80px #43e5f7; */
+  }
+}
+
+/** FF*/
+input[type="range"]::-moz-range-progress {
+background-color: #43e5f7; 
+}
+input[type="range"]::-moz-range-track {  
+background-color: #9a905d;
+}
+/* IE*/
+input[type="range"]::-ms-fill-lower {
+background-color: #43e5f7; 
+}
+input[type="range"]::-ms-fill-upper {  
+background-color: #9a905d;
 }

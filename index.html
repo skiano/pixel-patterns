@@ -26,7 +26,7 @@
           <button></button>
           <button></button>
           <button></button>
-          <button></button>
+          <button class="active"></button>
           <button></button>
           <button></button>
           <button></button>
@@ -37,8 +37,28 @@
           <canvas id="canvas" width="1000" height="1000"></canvas>
         </div>
         <div id="layers">
-          Background<br>
-          Layer 1
+          <div class="layer">
+            <h4>Background</h4>
+          </div>
+          <div class="layer">
+            <h4>Layer 1</h4>
+            <div class="button-set">
+              <button class="active">Full Drop</button><button>1/2 Drop</button><button>Brick</button>
+            </div>
+            <input type="range" id="volume" name="volume" min="4" max="28"><br/>
+            <p style="text-align: center;">20px × 20px</p>
+          </div>
+          <div class="layer">
+            <h4>Layer 2</h4>
+          </div>
+          <div class="layer">
+            <h4>Layer 3</h4>
+          </div>
+          <div class="layer">
+            <div class="button-set">
+              <button>New Layer</button>
+            </div>
+          </div>
         </div>
       </div>
     </main>
