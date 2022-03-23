@@ -59,13 +59,23 @@ function loop(cursorX, cursorY) {
     let px = Math.floor(x / pxSize);
     let py = Math.floor(y / pxSize);
 
-    const c = (px % 2 === 0) === (py % 2 === 0)
-      ? 240
-      : 230;
 
-    data[i] = c;
-    data[i + 1] = currentX === px && currentY === py ? 0 : c;
-    data[i + 2] = c;
+    if (false && (x % pxSize === 0 || y % pxSize === 0)) {
+      data[i] = 200;
+      data[i + 1] = 200;
+      data[i + 2] = 200;
+    } else {
+      
+      const isTarget = currentX % 10 === px % 10 && currentY % 10 === py % 10;
+
+      const c = (px % 2 === 0) === (py % 2 === 0)
+        ? 250
+        : 240;
+
+      data[i] = c;
+      data[i + 1] = isTarget ? 0 : c;
+      data[i + 2] = c;
+    }
 
     p++;
   }
