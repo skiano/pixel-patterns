@@ -110,6 +110,13 @@ h1 {
 
 .layer {
   padding: 10px;
+  opacity: 0.5;
+}
+
+.layer.active {
+  border-left: 2px solid rgb(29, 50, 236);
+  padding-left: 8px;
+  opacity: 1;
 }
 
 .layer + .layer {
@@ -119,6 +126,7 @@ h1 {
 .layer h4 {
   text-transform: uppercase;
   font-size: 12px;
+  letter-spacing: 0.02em;
 }
 
 .button-set {
