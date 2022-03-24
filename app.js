@@ -1,20 +1,33 @@
+const scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
 const canvasWrapElm = document.getElementById('canvas-wrap');
 
-const STATE = {
-  backgroundColor: '',
-};
-
-console.log(canvasWrapElm);
-
-const scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
 const canvas = document.createElement('canvas');
-
-canvas.width = canvasWrapElm.clientWidth;
-canvas.height = canvasWrapElm.clientHeight;
 const ctx = canvas.getContext('2d', { alpha: false });
 ctx.scale(scale, scale); // Normalize coordinate system to use css pixels.
-
 canvasWrapElm.appendChild(canvas);
+
+let READY = true;
+const STATE = new Proxy({
+  canvas: {},
+  cursor: null,
+  background: [0, 0, 0, 1],
+}, {
+  set(o, k, v) {
+    if (o[k] !== v) {
+      o[k] = v;
+      if (READY) {
+        READY = false;
+        requestAnimationFrame(loop);
+      }
+    }
+  },
+});
+
+// function setCharAt(str,index,chr) {
+//   if(index > str.length-1) return str;
+//   return str.substring(0,index) + chr + str.substring(index+1);
+// }
+
 
 const BRICK = 'BRICK';
 const HALF_DROP = 'HALF_DROP';
@@ -36,19 +49,21 @@ const pattern = {
   ]
 }
 
-
 let offset;
 
-function loop(cursorX, cursorY) {
+
+function loop() {
   const { width, height } = canvas;
 
   const imageData = ctx.getImageData(0, 0, width, height);
   const { data } = imageData;
 
-  let pxSize = 18;
+  let pxSize = 15;
 
-  let currentX = Math.floor(cursorX / pxSize);
-  let currentY = Math.floor(cursorY / pxSize);
+  let blockSize = 10;
+
+  let currentX = STATE.cursor && Math.floor(STATE.cursor.x / pxSize);
+  let currentY = STATE.cursor && Math.floor(STATE.cursor.y / pxSize);
 
   let p = 0;
   for (let i = 0; i < data.length; i += 4) {
@@ -59,21 +74,19 @@ function loop(cursorX, cursorY) {
     let px = Math.floor(x / pxSize);
     let py = Math.floor(y / pxSize);
 
+    const oddBlock = (Math.floor(px / blockSize) % 2 === 0) === (Math.floor(py / blockSize) % 2 === 0);
 
-    if (false && (x % pxSize === 0 || y % pxSize === 0)) {
-      data[i] = 200;
-      data[i + 1] = 200;
-      data[i + 2] = 200;
+    if (STATE.cursor && (currentX % blockSize === px % blockSize && currentY % blockSize === py % blockSize)) {
+      data[i] = 0;
+      data[i + 1] = 55;
+      data[i + 2] = 250;
     } else {
-      
-      const isTarget = currentX % 10 === px % 10 && currentY % 10 === py % 10;
-
       const c = (px % 2 === 0) === (py % 2 === 0)
-        ? 250
-        : 240;
+        ? (oddBlock ? 250 : 230)
+        : (oddBlock ? 240 : 220);
 
       data[i] = c;
-      data[i + 1] = isTarget ? 0 : c;
+      data[i + 1] = c;
       data[i + 2] = c;
     }
 
@@ -81,13 +94,33 @@ function loop(cursorX, cursorY) {
   }
 
   ctx.putImageData(imageData, 0, 0);
-  
-  // requestAnimationFrame(loop);
+
+  READY = true;
 }
 
-loop();
+function resizeCanvas() {
+  const { clientWidth, clientHeight } = canvasWrapElm;
+  canvas.width = clientWidth;
+  canvas.height = clientHeight;
+  STATE.canvas = {
+    width: clientWidth,
+    height: clientHeight
+  };
+}
 
-canvas.addEventListener('mousemove', (e) => {
-  loop(e.layerX, e.layerY);
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas, false);
+
+function trackCursor(e) {
+  STATE.cursor = { x: e.layerX, y: e.layerY };
+};
+
+canvas.addEventListener('mouseenter', (e) => {
+  canvas.addEventListener('mousemove', trackCursor);
+});
+
+canvas.addEventListener('mouseleave', (e) => {
+  STATE.cursor = null;
+  canvas.removeEventListener('mousemove', trackCursor);
 });
 
